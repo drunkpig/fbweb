@@ -16,6 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from web import views as web_view
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    # web for user view
+    url(r'^$', web_view.index),
 ]
