@@ -21,6 +21,9 @@ from web import views as web_view
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    # web for user view
-    url(r'^$', web_view.index),
+    # web for user
+
+    url(r'^index/(\d+)/', web_view.list, name='home'),
+    url(r'^index/', web_view.index, name='idx'),
+    url(r'^$', web_view.index, name='index'),
 ]

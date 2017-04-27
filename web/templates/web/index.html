@@ -1,22 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style type="text/css">
-        table {
-            border-color: black;
-        }
-    </style>
-</head>
-<body>
-<table>
-    {% for k,v in qikan.items %}
-    <tr>
-        <td>{{ k }}</td>
-        <td>{{ v }}</td>
-    </tr>
-    {% endfor %}
-</table>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}欢迎光临首页{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        {% for qikan in qikan_docs %}
+            <div class="row">
+                <div class="col-md-3"><img style="width: 180px; height: 250px;"
+                                           src="data:image/jpg;base64,{{ qikan.feng_mian |default_if_none_img }}"/>
+                </div>
+                <div class="col-md-9">
+                    <table>
+                        {% for field, zh_name in field_config.items %}
+                            <tr>
+                                <td class="qikan_info_key">{{ zh_name }}</td>
+                                <td>{{ qikan|dickey:field }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <hr/>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="{% url 'home' pre_page %}" aria-label="前一页">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    {% for i in pre_page_link %}
+                        <li><a href="{% url 'home' i %}">{{ i|add:1 }}</a></li>
+                    {% endfor %}
+
+                    <li  class="active"><a href="{% url 'home' cur_page %}">{{ cur_page|add:1 }}</a></li>
+                    {% for i in next_page_link %}
+                        <li><a href="{% url 'home' i %}">{{ i|add:1 }}</a></li>
+                    {% endfor %}
+
+                    <li>
+                        <a href="{% url 'home' next_page %}" aria-label="下一页">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+{% endblock %}

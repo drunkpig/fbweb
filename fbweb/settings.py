@@ -88,6 +88,22 @@ QIKAN_DATABASES = {
     "PASSWD":""
 }
 
+QIKAN_FIELD_ZH_NAME = {
+    'book_name_zh': '中文名称',
+    'book_name_en': '英文名称',
+    'cn': 'CN',
+    'issn': 'ISSN',
+    'isbn': 'ISBN',
+    'class': '刊物分类',
+    'jian_jie': '简介',
+    'zhu_ban_dan_wei': '主办单位',
+    'zhu_guan_dan_wei': '主管单位',
+    'chu_ban_zhou_qi': '出版周期',
+    '_id':"id"
+}
+
+ITEM_PER_PAGE = 15  # 每一个列表页显示多少个刊物
+PAGGER_COUNT = 7  # 每一页显示的分页个数
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -126,3 +142,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+# 其它 存放静态文件的文件夹，可以用来存放项目中公用的静态文件，里面不能包含 STATIC_ROOT
+# 如果不想用 STATICFILES_DIRS 可以不用，都放在 app 里的 static 中也可以
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "common_static"),
+)
