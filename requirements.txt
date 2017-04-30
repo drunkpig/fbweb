@@ -1,5 +1,6 @@
-django==1.11
+django==1.10.7
 #gunicorn==19.3.0
 #cymysql==0.8.1
 #django-cymysql==0.3.1
 pymongo==3.4.0
+django-multiselectfield=0.1.5

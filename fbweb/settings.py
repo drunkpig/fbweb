@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,12 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web'
+    'web',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # 设置admin中文显示
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -70,7 +70,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fbweb.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -82,10 +81,10 @@ DATABASES = {
 }
 
 QIKAN_DATABASES = {
-    'HOST':"dev.postgresql.jscrapy.org",
+    'HOST': "dev.mongo.jscrapy.org",
     'PORT': 27017,
-    'USER':"",
-    "PASSWD":""
+    'USER': "",
+    "PASSWD": ""
 }
 
 QIKAN_FIELD_ZH_NAME = {
@@ -99,10 +98,19 @@ QIKAN_FIELD_ZH_NAME = {
     'zhu_ban_dan_wei': '主办单位',
     'zhu_guan_dan_wei': '主管单位',
     'chu_ban_zhou_qi': '出版周期',
-    '_id':"id"
+    '_id': "id"
 }
 
-ITEM_PER_PAGE = 15  # 每一个列表页显示多少个刊物
+QIKAN_FIELD_EXPORT_TO_RDB = [  # 从mongodb里要同步到关系数据库的字段
+    '_id',
+    'book_name_zh',
+    'book_name_en',
+    'cn',
+    'issn',
+    'isbn',
+]
+
+ITEM_PER_PAGE = 10  # 每一个列表页显示多少个刊物
 PAGGER_COUNT = 7  # 每一页显示的分页个数
 
 # Password validation
@@ -123,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -136,7 +143,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

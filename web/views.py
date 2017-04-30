@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from pymongo import MongoClient
 from django.conf import settings
 from bson.objectid import ObjectId
+from math import ceil
+from .models import Qikan
 
 
 def index(request):
@@ -19,6 +21,43 @@ def list(request, start_page):
     item_per_page = settings.ITEM_PER_PAGE
 
     return render(request, "web/index.html", get_docs(start_page, item_per_page))
+
+
+def sync_mongo(request):
+    """
+    把mongodb里的settings.SYNC_FIELDS同步到default db
+    :param request:
+    :return:
+    """
+    field_config = settings.QIKAN_FIELD_ZH_NAME
+    client = MongoClient(settings.QIKAN_DATABASES['HOST'], settings.QIKAN_DATABASES['PORT'])
+    db = client.db_qikan
+    collection = db.qikan_info
+    doc_count = collection.count()  # 总共多少文档
+    batch_size = 100
+    page_count = ceil(doc_count / batch_size)  # 计算出一共多少页
+    cur_batch = 0
+    ct = 0;
+    for i in range(0, page_count):
+        qikan_docs = collection.find().skip(cur_batch * batch_size).limit(batch_size)
+        # 插入default RDBM
+        for doc in qikan_docs:
+            qikan = Qikan()
+            doc_id = str(doc['_id'])
+            name_zh = doc.get('book_name_zh')
+            name_en = doc.get('book_name_en')
+            Qikan.objects.update_or_create({"doc_id":doc_id}, doc_id=doc_id, book_name_zh = name_zh, book_name_en = name_en)
+
+            print("save [%d] %s" % (ct, doc_id))
+            ct += 1
+
+            if name_zh is None and name_en is None:
+                print(doc_id, end="\n")
+                print(doc)
+
+        cur_batch += 1
+
+    return "ok"
 
 
 def get_docs(start_page, item_per_page):

@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^index/(\d+)/', web_view.list, name='home'),
     url(r'^index/', web_view.index, name='idx'),
     url(r'^$', web_view.index, name='index'),
+    url(r'^sync_mongo/', web_view.sync_mongo)
 ]
