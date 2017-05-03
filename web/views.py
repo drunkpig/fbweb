@@ -42,19 +42,18 @@ def sync_mongo(request):
         qikan_docs = collection.find().skip(cur_batch * batch_size).limit(batch_size)
         # 插入default RDBM
         for doc in qikan_docs:
-            qikan = Qikan()
             doc_id = str(doc['_id'])
-            name_zh = doc.get('book_name_zh')
-            name_en = doc.get('book_name_en')
-            Qikan.objects.update_or_create({"doc_id":doc_id}, doc_id=doc_id, book_name_zh = name_zh, book_name_en = name_en)
+            fenlei = doc.get('class')
+            # del doc['class']
+            doc['fenlei'] = fenlei
+            qk = Qikan()
+            for k, v in doc.items():
+                setattr(qk, k, v)
+
+            qk.save()
 
             print("save [%d] %s" % (ct, doc_id))
             ct += 1
-
-            if name_zh is None and name_en is None:
-                print(doc_id, end="\n")
-                print(doc)
-
         cur_batch += 1
 
     return "ok"
