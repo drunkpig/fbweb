@@ -20,7 +20,7 @@ for qk_name in replace_field_name:
             for (k, v) in doc_to_combine.items():
                 if qk_name == 'book_name_en':  # 靠中文合并过的跳过
                     if k == 'book_name_zh' and v is not None and len(v) > 0:
-                        continue
+                        break
                 if v == '停刊':
                     k = "status"
                 if k == '_form' or v is None or len(str(v)) == 0:  # 直接删除
