@@ -43,9 +43,6 @@ def sync_mongo(request):
         # 插入default RDBM
         for doc in qikan_docs:
             doc_id = str(doc['_id'])
-            fenlei = doc.get('class')
-            # del doc['class']
-            doc['fenlei'] = fenlei
             qk = Qikan()
             for k, v in doc.items():
                 setattr(qk, k, v)

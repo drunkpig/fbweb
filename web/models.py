@@ -23,7 +23,7 @@ class Qikan(models.Model):
     lan_mu = models.CharField("栏目", max_length=100, blank=True, null=True, default="-")
     _from = models.CharField("数据来源", max_length=20, blank=True, null=True, default="-")
     chu_ban_she = models.CharField("出版社", max_length=100, blank=True, null=True, default="-")
-    fenlei = models.CharField("分类", max_length=100, blank=True, null=True, default="-")
+    fen_lei = models.CharField("分类", max_length=100, blank=True, null=True, default="-")
     you_xiang = models.CharField("邮箱", max_length=100, blank=True, null=True, default="-")
     huo_jiang = models.CharField("获奖", max_length=100, blank=True, null=True, default="-")
     you_zheng_bian_ma = models.CharField("邮政编码", max_length=20, blank=True, null=True, default="-")
