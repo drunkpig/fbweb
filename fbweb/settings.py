@@ -84,7 +84,9 @@ QIKAN_DATABASES = {
     'HOST': "dev.mongo.jscrapy.org",
     'PORT': 27017,
     'USER': "",
-    "PASSWD": ""
+    "PASSWD": "",
+    'DB_NAME': "db_qikan",
+    "COLLECTION_NAME": "qikan_all_clean",
 }
 
 QIKAN_FIELD_ZH_NAME = {

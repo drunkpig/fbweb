@@ -31,8 +31,10 @@ def sync_mongo(request):
     """
     field_config = settings.QIKAN_FIELD_ZH_NAME
     client = MongoClient(settings.QIKAN_DATABASES['HOST'], settings.QIKAN_DATABASES['PORT'])
-    db = client.db_qikan
-    collection = db.qikan_info
+    db_name = settings.QIKAN_DATABASES['DB_NAME']
+    collection_name = settings.QIKAN_DATABASES['COLLECTION_NAME']
+    db = client[db_name]
+    collection = db[collection_name]
     doc_count = collection.count()  # 总共多少文档
     batch_size = 100
     page_count = ceil(doc_count / batch_size)  # 计算出一共多少页

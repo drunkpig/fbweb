@@ -57,7 +57,15 @@ class Qikan(models.Model):
     shen_gao_su_du = models.CharField("审稿速度", max_length=100, blank=True, null=True, default="-")
     lu_yong_bi_li = models.CharField("录用比例", max_length=20, blank=True, null=True, default="-")
     shen_gao_fei = models.CharField("审稿费", max_length=20, blank=True, null=True, default="-")
-
+    chu_ban_sheng_fen = models.CharField("出版省份", max_length=20, blank=True, null=True, default="-")
+    duan_jian_jie = models.CharField("简介", max_length=500, blank=True, null=True, default="-")
+    isbn = models.CharField("ISBN", max_length=20, blank=True, null=True, default="-")
+    jian_kan_shi_jian = models.CharField("见刊时间", max_length=20, blank=True, null=True, default="-")
+    kuai_jie_fen_lei = models.CharField("快捷分类", max_length=20, blank=True, null=True, default="-")
+    qi_kan_ji_bie = models.CharField("期刊级别", max_length=20, blank=True, null=True, default="-")
+    status = models.CharField("发行状态", max_length=20, blank=True, null=True, default="-")
+    xiang_guan_lian_jie = models.CharField("相关链接", max_length=200, blank=True, null=True, default="-")
+    za_zhi_she_jie_shao = models.CharField("杂志社介绍", max_length=1000, blank=True, null=True, default="-")
 
 def __str__(self):
     title = self.book_name_zh
