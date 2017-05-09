@@ -1,5 +1,6 @@
 from fbweb import settings
 import sys
+from os.path import  dirname
 from pymongo import MongoClient
 
 """
@@ -8,20 +9,22 @@ from pymongo import MongoClient
 ]
 """
 field_file = [
-    {"chu_ban_zhou_qi.log": 5},
-    {"jian_kan_shi_jian.log": 3},
-    {"chu_ban_sheng_fen.log": 6},
-    {"kuai_jie_fen_lei.log":6}
+    {"chu_ban_zhou_qi.log": [5, "出版周期"]},
+    {"jian_kan_shi_jian.log": [3, "见刊时间"]},
+    {"chu_ban_sheng_fen.log": [6, "省份"]},
+    {"kuai_jie_fen_lei.log": [6, "快捷分类"]}
 ]
 
 encode_field_result = {}  # 存储最终的结果
 
+tag_name_zh = {}
 all_file_list = []
 all_bit_op_count = []
 temp = []
 for doc in field_file:
     for k, v in doc.items():
-        temp.append(v)
+        temp.append(v[0])
+        tag_name_zh[k.split(".")[0]]=v[1]
         all_file_list.append(k)
 
 for i in range(0, len(temp)):
@@ -33,31 +36,50 @@ for i in range(0, len(temp)):
 bit_wise_index = 0
 for file in all_file_list:  # 分别打开每个文件对文件进行编码
     result = {}
-    f = open(file, "r")
-    field_list = f.readlines()
+    logdir = dirname(__file__)
+    f = open(logdir+"/"+file, "r")
+
+    field_list = ['不限'] + f.readlines()
     bit_wise = all_bit_op_count[bit_wise_index]  # 右移多少位
     for code in range(0, len(field_list)):
         fd = field_list[code].strip()
-        encode = (code + 1) << bit_wise  # code+1是为了把全0留出来当做‘无限’这个条件
+        encode = (code) << bit_wise  # code+1是为了把全0留出来当做‘无限’这个条件
         result[fd] = encode
         print("%s\t%s" % (fd, str(bin(encode))))
     bit_wise_index += 1
     encode_field_result[file.split(".")[0]] = result
     print("==============================")
 
-client = MongoClient("dev.mongo.jscrapy.org", 27017)
-db = client['db_qikan']
-collection = sys.argv[1]
 
-for doc in db[collection].find():
-    doc['s_code'] = 0  # 初始化编码
-    for k, v in encode_field_result.items():
-        field_name = k
-        encode_dic = v
-        field_value = doc.get(field_name)
-        if field_value:
-            scode = encode_dic.get(field_value)
-            doc['s_code'] = doc['s_code'] | scode
+def get_bit_op_wise():
+    return all_bit_op_count;
 
-    # print(doc['s_code'])
-    db[collection].save(doc)
+
+def get_encode_field_result():
+    return encode_field_result;
+
+def get_tag_name_zh():
+    return tag_name_zh;
+
+
+def do_sync():
+    client = MongoClient("dev.mongo.jscrapy.org", 27017)
+    db = client['db_qikan']
+    collection = sys.argv[1]
+
+    for doc in db[collection].find():
+        doc['s_code'] = 0  # 初始化编码
+        for k, v in encode_field_result.items():
+            field_name = k
+            encode_dic = v
+            field_value = doc.get(field_name)
+            if field_value:
+                scode = encode_dic.get(field_value)
+                doc['s_code'] = doc['s_code'] | scode
+
+        print(doc['s_code'])
+        #db[collection].save(doc)
+
+
+if __name__ == "__main__":
+    do_sync()

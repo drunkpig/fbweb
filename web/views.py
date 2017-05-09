@@ -6,6 +6,7 @@ from django.conf import settings
 from bson.objectid import ObjectId
 from math import ceil
 from .models import Qikan
+from .utils import get_seg_list
 
 
 def index(request):
