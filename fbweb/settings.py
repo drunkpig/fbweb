@@ -75,19 +75,16 @@ WSGI_APPLICATION = 'fbweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': "fbweb",
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': 'dev.mongo.jscrapy.org',
+        'PORT': '5432',
     },
 }
 
-QIKAN_DATABASES = {
-    'HOST': "dev.mongo.jscrapy.org",
-    'PORT': 27017,
-    'USER': "",
-    "PASSWD": "",
-    'DB_NAME': "db_qikan",
-    "COLLECTION_NAME": "qikan_all_clean",
-}
 
 QIKAN_FIELD_ZH_NAME = {
     'book_name_zh': '中文名称',

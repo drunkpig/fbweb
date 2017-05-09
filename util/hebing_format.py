@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from pymongo import MongoClient
+import sys
 
 raw_db_name = 'db_qikan'
-raw_table_name = 'qikan_all'
+raw_table_name = sys.argv[1]
 
 new_db_name = 'db_qikan'
 new_table_name = raw_table_name+'_clean'
@@ -23,7 +24,8 @@ for qk_name in replace_field_name:
                     isSave = False
                     break
             fen_lei = doc_to_combine.get('class')  # 'class'是个关键字，换成'fen_lei'
-            doc_to_combine['fen_lei'] = fen_lei
+            if fen_lei:
+                doc_to_combine['fen_lei'] = fen_lei
 
             dujia = doc_to_combine.get("is_du_jia")
             if dujia:

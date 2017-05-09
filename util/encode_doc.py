@@ -10,7 +10,8 @@ from pymongo import MongoClient
 field_file = [
     {"chu_ban_zhou_qi.log": 5},
     {"jian_kan_shi_jian.log": 3},
-    {"chu_ban_sheng_fen.log": 6}
+    {"chu_ban_sheng_fen.log": 6},
+    {"kuai_jie_fen_lei.log":6}
 ]
 
 encode_field_result = {}  # 存储最终的结果

@@ -23,41 +23,6 @@ def list(request, start_page):
     return render(request, "web/index.html", get_docs(start_page, item_per_page))
 
 
-def sync_mongo(request):
-    """
-    把mongodb里的settings.SYNC_FIELDS同步到default db
-    :param request:
-    :return:
-    """
-    field_config = settings.QIKAN_FIELD_ZH_NAME
-    client = MongoClient(settings.QIKAN_DATABASES['HOST'], settings.QIKAN_DATABASES['PORT'])
-    db_name = settings.QIKAN_DATABASES['DB_NAME']
-    collection_name = settings.QIKAN_DATABASES['COLLECTION_NAME']
-    db = client[db_name]
-    collection = db[collection_name]
-    doc_count = collection.count()  # 总共多少文档
-    batch_size = 100
-    page_count = ceil(doc_count / batch_size)  # 计算出一共多少页
-    cur_batch = 0
-    ct = 0;
-    for i in range(0, page_count):
-        qikan_docs = collection.find().skip(cur_batch * batch_size).limit(batch_size)
-        # 插入default RDBM
-        for doc in qikan_docs:
-            doc_id = str(doc['_id'])
-            qk = Qikan()
-            for k, v in doc.items():
-                setattr(qk, k, v)
-
-            qk.save()
-
-            print("save [%d] %s" % (ct, doc_id))
-            ct += 1
-        cur_batch += 1
-
-    return "ok"
-
-
 def get_docs(start_page, item_per_page):
     field_config = settings.QIKAN_FIELD_ZH_NAME
     client = MongoClient(settings.QIKAN_DATABASES['HOST'], settings.QIKAN_DATABASES['PORT'])
