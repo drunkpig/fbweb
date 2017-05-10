@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from math import ceil
 from .models import Qikan
 from .utils import get_seg_list
+from django.core.cache import cache
 
 
 def index(request):
@@ -41,3 +42,10 @@ def get_docs(start_page, item_per_page):
             "page_count": page_count, "cur_page": cur_page, "pre_page": pre_page, "next_page": next_page,
             "pre_page_link": range(cur_page - pagger_per_page if cur_page > pagger_per_page else 0, cur_page),
             'next_page_link': range(cur_page + 1, cur_page + pagger_per_page)}
+
+
+def seg(request, s_code):
+    scode = int(s_code)
+    data = {"seglist": get_seg_list(scode)}
+
+    return render(request, "segmentation.html", data)

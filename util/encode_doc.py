@@ -1,6 +1,6 @@
 from fbweb import settings
 import sys
-from os.path import  dirname
+from os.path import dirname
 from pymongo import MongoClient
 
 """
@@ -20,43 +20,50 @@ encode_field_result = {}  # 存储最终的结果
 tag_name_zh = {}
 all_file_list = []
 all_bit_op_count = []
+bit_op_map = {}
 temp = []
+
 for doc in field_file:
     for k, v in doc.items():
         temp.append(v[0])
-        tag_name_zh[k.split(".")[0]]=v[1]
+        tag_name_zh[k.split(".")[0]] = v[1]
         all_file_list.append(k)
 
 for i in range(0, len(temp)):
     m = 0
     for j in range(0, i):
         m += temp[j]
-    all_bit_op_count.append(m)
+    tp = (temp[i], m, (2 ** (temp[i]) - 1) << m)
+    all_bit_op_count.append(tp)
+    km = all_file_list[i].split(".")[0]
+    bit_op_map[km] = tp
+
 
 bit_wise_index = 0
 for file in all_file_list:  # 分别打开每个文件对文件进行编码
     result = {}
     logdir = dirname(__file__)
-    f = open(logdir+"/"+file, "r")
+    f = open(logdir + "/" + file, "r")
 
     field_list = ['不限'] + f.readlines()
-    bit_wise = all_bit_op_count[bit_wise_index]  # 右移多少位
+    bit_wise = all_bit_op_count[bit_wise_index][1]  # 右移多少位
     for code in range(0, len(field_list)):
         fd = field_list[code].strip()
         encode = (code) << bit_wise  # code+1是为了把全0留出来当做‘无限’这个条件
         result[fd] = encode
-        print("%s\t%s" % (fd, str(bin(encode))))
+        #print("%s\t%s" % (fd, str(bin(encode))))
     bit_wise_index += 1
     encode_field_result[file.split(".")[0]] = result
-    print("==============================")
+    #print("==============================")
 
 
 def get_bit_op_wise():
-    return all_bit_op_count;
+    return bit_op_map;
 
 
 def get_encode_field_result():
     return encode_field_result;
+
 
 def get_tag_name_zh():
     return tag_name_zh;
@@ -78,7 +85,7 @@ def do_sync():
                 doc['s_code'] = doc['s_code'] | scode
 
         print(doc['s_code'])
-        #db[collection].save(doc)
+        db[collection].save(doc)
 
 
 if __name__ == "__main__":

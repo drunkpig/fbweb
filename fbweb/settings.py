@@ -85,7 +85,6 @@ DATABASES = {
     },
 }
 
-
 QIKAN_FIELD_ZH_NAME = {
     'book_name_zh': '中文名称',
     'book_name_en': '英文名称',
@@ -100,14 +99,14 @@ QIKAN_FIELD_ZH_NAME = {
     '_id': "id"
 }
 
-QIKAN_FIELD_EXPORT_TO_RDB = [  # 从mongodb里要同步到关系数据库的字段
-    '_id',
-    'book_name_zh',
-    'book_name_en',
-    'cn',
-    'issn',
-    'isbn',
-]
+# QIKAN_FIELD_EXPORT_TO_RDB = [  # 从mongodb里要同步到关系数据库的字段
+#     '_id',
+#     'book_name_zh',
+#     'book_name_en',
+#     'cn',
+#     'issn',
+#     'isbn',
+# ]
 
 ITEM_PER_PAGE = 10  # 每一个列表页显示多少个刊物
 PAGGER_COUNT = 7  # 每一页显示的分页个数
@@ -152,3 +151,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "common_static"),
 )
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        # 'LOCATION': 'cache_table_name',
+        'TIMEOUT': 600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    }
+}
