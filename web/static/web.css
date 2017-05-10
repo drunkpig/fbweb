@@ -3,4 +3,20 @@
 }
 .selected_True{
     background-color: red;
+    color: white;
+}
+.tag{
+    text-align: center;
+    display: inline-block;
+    margin-left: 15px;
+    width: 70px;
+    word-break: break-all;
+}
+table.segmentation td{
+    margin-top: 10px;
+    padding-top: 20px;
+}
+.tag_name{
+    width: 100px;
+    font-weight: 700;
 }

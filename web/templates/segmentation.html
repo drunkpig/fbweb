@@ -3,21 +3,23 @@
 {% block content %}
 
     <div class="container">
-        {% for tag_name, tags in seglist.items %}
-            <div class="row">
-                <div class="col-md-1">
-                    {{ tag_name }}
-                </div>
-                <div class="col-11">
-                    {% for tg, tuple in tags.items %}
+        <table class="segmentation">
+            {% for tag_name, tags in seglist.items %}
+                <tr>
+                    <td class="tag_name">
+                        {{ tag_name }}
+                    </td>
+                    <td>
+                        {% for tg, tuple in tags.items %}
+                            <a class="tag selected_{{ tuple.1 }}" href="{% url 'seg' tuple.0 %}">{{ tg }}</a>
+                        {% endfor %}
+                    </td>
+                </tr>
 
-                            <a class="selected_{{ tuple.1 }}" href="{% url 'seg' tuple.0 %}">{{ tg }}</a>
+            {% endfor %}
 
+        </table>
 
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
     </div>
 
 {% endblock %}
