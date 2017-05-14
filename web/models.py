@@ -82,7 +82,7 @@ class Qikan(models.Model):
     you_fa_bian_hao = models.CharField("邮发编号", max_length=max_len['you_fa_bian_hao'], blank=True, null=True, default="-")
     quan_nian_jia = models.CharField("全年价", max_length=max_len['quan_nian_jia'], blank=True, null=True, default="-")
     chu_ban_zhou_qi = models.CharField("出版周期", max_length=max_len['chu_ban_zhou_qi'], blank=True, null=True, default="-")
-    feng_mian = models.TextField("封面", blank=True, null=True, default="-")
+    feng_mian = models.TextField("封面", blank=True, null=True, default='-')
     fa_xing_nian_fen = models.CharField("发行年份", max_length=max_len['fa_xing_nian_fen'], blank=True, null=True, default="-")
     ban_nian_jia = models.CharField("半年价", max_length=max_len['ban_nian_jia'], blank=True, null=True, default="-")
     fa_bao_kan_ju = models.CharField("发报刊局", max_length=max_len['fa_bao_kan_ju'], blank=True, null=True, default="-")

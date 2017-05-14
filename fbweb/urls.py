@@ -23,7 +23,7 @@ urlpatterns = [
 
     # web for user
 
-    url(r'^index/(\d+)/', web_view.list, name='home'),
+    url(r'^index/(\d+)/(\d+)', web_view.list, name='home'),
     url(r'^index/', web_view.index, name='idx'),
     url(r'^$', web_view.index, name='index'),
     url(r'^seg/(\d+)/', web_view.seg, name='seg')

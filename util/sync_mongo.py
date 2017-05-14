@@ -37,6 +37,8 @@ for doc in qikan_docs:
     doc_id = str(doc['_id'])
     qk = Qikan()
     for k, v in doc.items():
+        if v == "-":
+            v = None
         setattr(qk, k, v)
     try:
         qk.save()

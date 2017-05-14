@@ -91,12 +91,12 @@ QIKAN_FIELD_ZH_NAME = {
     'cn': 'CN',
     'issn': 'ISSN',
     'isbn': 'ISBN',
-    'class': '刊物分类',
+    'fen_lei': '刊物分类',
     'jian_jie': '简介',
     'zhu_ban_dan_wei': '主办单位',
     'zhu_guan_dan_wei': '主管单位',
     'chu_ban_zhou_qi': '出版周期',
-    '_id': "id"
+    'id': "id"
 }
 
 # QIKAN_FIELD_EXPORT_TO_RDB = [  # 从mongodb里要同步到关系数据库的字段

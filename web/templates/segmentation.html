@@ -1,25 +1,20 @@
-{% extends 'base.html' %}
+<div class="container tag-container">
+    <table class="segmentation">
+        {% for tag_name, tags in seglist.items %}
+            <tr>
+                <td class="tag_name">
+                    {{ tag_name }}
+                </td>
+                <td>
+                    {% for tg, tuple in tags.items %}
+                        <a class="tag selected_{{ tuple.1 }}" href="{% url 'home' 1 tuple.0 %}">{{ tg }}</a>
+                    {% endfor %}
+                </td>
+            </tr>
 
-{% block content %}
+        {% endfor %}
 
-    <div class="container">
-        <table class="segmentation">
-            {% for tag_name, tags in seglist.items %}
-                <tr>
-                    <td class="tag_name">
-                        {{ tag_name }}
-                    </td>
-                    <td>
-                        {% for tg, tuple in tags.items %}
-                            <a class="tag selected_{{ tuple.1 }}" href="{% url 'seg' tuple.0 %}">{{ tg }}</a>
-                        {% endfor %}
-                    </td>
-                </tr>
+    </table>
 
-            {% endfor %}
+</div>
 
-        </table>
-
-    </div>
-
-{% endblock %}
