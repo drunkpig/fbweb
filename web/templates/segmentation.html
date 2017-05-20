@@ -6,15 +6,11 @@
                     {{ tag_name }}
                 </td>
                 <td>
-                    {% for tg, tuple in tags.items %}
-                        <a class="tag selected_{{ tuple.1 }}" href="{% url 'home' 1 tuple.0 %}">{{ tg }}</a>
+                    {% for tuple in tags %}
+                        <a class="tag selected_{{ tuple.2 }}" href="{% url 'home' 1 tuple.1 %}">{{ tuple.0 }}</a>
                     {% endfor %}
                 </td>
             </tr>
-
         {% endfor %}
-
     </table>
-
 </div>
-

@@ -31,10 +31,22 @@ def get_seg_list(search_code):
             mask = bit_wise_array.get(k)[2]
             code = (~mask) & search_code | n[0]
             is_selected = (search_code & mask == n[0])
-            x = (code, is_selected)
+            x = (tag, code, is_selected)
 
             seg_map_result[tag_zh_nm][tag] = x
-    return seg_map_result
+
+    # 排序
+    seg_mp = {}
+    for zh_nm, tags in seg_map_result.items():
+        seg_mp[zh_nm] = []
+        keys = list(tags.keys())
+        keys.remove("不限")
+
+        mp = [tags[k] for k in sorted(keys)]  # 把这个mp根据key值进行排序
+        mp = [tags['不限']] + mp
+        seg_mp[zh_nm] = mp
+
+    return seg_mp
 
 
 if __name__ == '__main__':
