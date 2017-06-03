@@ -35,7 +35,10 @@ def get_docs1(cur_page, item_per_page, s_code):
         item_per_page) + " offset " + str(offset_item)
     qikan_docs = Qikan.objects.raw(sql)
     sql2 = "select count(*) from web_qikan where (s_code &" + str(s_code) + ") = " + str(s_code)
-    doc_count = Qikan.objects.extra(select={"ct":sql2}).count()
+    cursor = connection.cursor()
+    cursor.execute(sql2)
+    row = cursor.fetchone()
+    doc_count = row[0]
     page_count = (doc_count + item_per_page) // item_per_page  # 计算出一共多少页
 
     qikan_docs.num_pages = page_count
